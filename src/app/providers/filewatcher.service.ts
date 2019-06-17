@@ -1,23 +1,27 @@
-import { FhirService } from './providers/fhir.service';
-import {Component} from '@angular/core';
-import {ElectronService} from './providers/electron.service';
+import { FhirService } from './fhir.service';
+import {Component, Injectable} from '@angular/core';
+import {ElectronService} from './electron.service';
 import {TranslateService} from '@ngx-translate/core';
-import {AppConfig} from '../environments/environment';
+import {AppConfig} from '../../environments/environment';
 import { mergeMap, catchError } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+@Injectable({
+  providedIn: 'root'
 })
-export class AppComponent {
+export class FilewatcherService {
+
   total: any;
+  private countdownEndSource = new Subject<string>();
+    public countdownEnd$ = this.countdownEndSource.asObservable();
   constructor(public electronService: ElectronService,
               private translate: TranslateService,
               private fhir: FhirService) {
 
     translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
+
+
 
     if (electronService.isElectron()) {
       console.log('Mode electron');
@@ -39,6 +43,7 @@ export class AppComponent {
               .subscribe(
               data => {
                 console.log('upload OK');
+                this.countdownEndSource.next(p);
               },err => console.log('HTTP Error', err),)
       });
 

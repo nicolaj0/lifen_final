@@ -84,6 +84,7 @@
     "node": ">=10.9.0"
   },
   "dependencies": {
-    "chokidar": "^3.0.1"
+    "chokidar": "^3.0.1",
+    "ngx-file-drop": "^8.0.2"
   }
 }
