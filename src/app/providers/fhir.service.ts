@@ -36,7 +36,7 @@ export class FhirService {
   }
 
   getHiso() : Observable<Histo> {
-    return this.http.get<Histo>('https://fhirtest.uhn.ca/baseDstu3/Binary/_history')
+    return this.http.get<Histo>('http://hapi.fhir.org/baseDstu3/Binary/_history?_count=1&_pretty=true')
       .pipe(
         catchError(this.handleError)
       );

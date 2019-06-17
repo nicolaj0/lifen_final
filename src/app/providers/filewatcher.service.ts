@@ -37,16 +37,8 @@ export class FilewatcherService {
       watcher.on("add", (p, stats) => {
 
         console.log(`File ${p} has been added`);
-        var data = electronService.fs.readFileSync("./" + p);
-        this.fhir.postFile(data)
-             /*  .pipe(mergeMap(() => this.fhir.getHiso())) */
-              .subscribe(
-              data => {
-                console.log('upload OK');
-                this.countdownEndSource.next(p);
-              },err => console.log('HTTP Error', err),)
-      });
-
+        this.countdownEndSource.next(p);
+      })
     } else {
       console.log('Mode web');
     }

@@ -37,20 +37,9 @@ export class HomeComponent implements OnInit {
 
           // Here you can access the real file
           console.log(droppedFile.relativePath, file);
-          this.watched =file.name;
-          var data = this.electronService.fs.readFileSync(droppedFile.relativePath);
-          this.fhir.postFile(data)
-               /*  .pipe(mergeMap(() => this.fhir.getHiso())) */
-                .subscribe(
-                data => {
 
-                  console.log('upload OK');
-                })
-
-
-
-
-
+          const fileToUpload = droppedFile.relativePath;
+          this.upload(file.path);
         });
       } else {
         // It was a directory (empty directories are added, otherwise only files)
@@ -58,6 +47,18 @@ export class HomeComponent implements OnInit {
         console.log(droppedFile.relativePath, fileEntry);
       }
     }
+  }
+
+  private upload(fileToUpload: string) {
+    this.watched =fileToUpload;
+    var data = this.electronService.fs.readFileSync(fileToUpload);
+    this.fhir.postFile(data)
+        .pipe(mergeMap(() => this.fhir.getHiso()))
+      .subscribe(data => {
+        console.log('upload OK');
+        this.total = data.total
+
+      });
   }
 
   public fileOver(event) {
@@ -70,9 +71,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.watched = ""
+    this.watched = "";
+    this.total=0;
     this.watcher.countdownEnd$.subscribe((file:string)=>{
-     this.watched =file;
+      this.upload(file);
+
   });
   }
 
