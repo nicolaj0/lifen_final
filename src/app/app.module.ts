@@ -1,3 +1,4 @@
+import { FhirService } from './providers/fhir.service';
 import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
@@ -43,7 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService],
+  providers: [ElectronService, FhirService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
