@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
 
   error: any;
   total: number;
-  droppedFile: string;
+  watched: string;
 
   constructor(private fhir: FhirService,
     public electronService: ElectronService,
@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
 
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
+    this.watched ="";
     for (const droppedFile of files) {
 
       // Is it a file?
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
 
           // Here you can access the real file
           console.log(droppedFile.relativePath, file);
+          this.watched =file.name;
           var data = this.electronService.fs.readFileSync(droppedFile.relativePath);
           this.fhir.postFile(data)
                /*  .pipe(mergeMap(() => this.fhir.getHiso())) */
@@ -62,13 +64,15 @@ export class HomeComponent implements OnInit {
     console.log(event);
   }
 
+
   public fileLeave(event) {
     console.log(event);
   }
 
   ngOnInit() {
+    this.watched = ""
     this.watcher.countdownEnd$.subscribe((file:string)=>{
-     this.droppedFile =file;
+     this.watched =file;
   });
   }
 

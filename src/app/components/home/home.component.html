@@ -1,10 +1,11 @@
 <div class="center">
-  <h1>{{droppedFile}}</h1>
+
   <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
                  (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
   </ngx-file-drop>
   <div class="upload-table">
-    <table class="table">
+    <span >{{ watched }}</span>
+   <!--  <table class="table">
       <thead>
       <tr>
         <th>Name</th>
@@ -15,6 +16,6 @@
         <td><strong>{{ item.relativePath }}</strong></td>
       </tr>
       </tbody>
-    </table>
+    </table> -->
   </div>
 </div>

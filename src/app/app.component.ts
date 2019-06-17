@@ -25,22 +25,9 @@ export class AppComponent {
       console.log('NodeJS childProcess', electronService.childProcess);
 
 
-      const watcher = electronService.chokidar.watch("./**/*.pdf", {
-        persistent: true
-      });
+   
 
       // Something to use when events are received.
-      watcher.on("add", (p, stats) => {
-
-        console.log(`File ${p} has been added`);
-        var data = electronService.fs.readFileSync("./" + p);
-        this.fhir.postFile(data)
-             /*  .pipe(mergeMap(() => this.fhir.getHiso())) */
-              .subscribe(
-              data => {
-                console.log('upload OK');
-              },err => console.log('HTTP Error', err),)
-      });
 
     } else {
       console.log('Mode web');
