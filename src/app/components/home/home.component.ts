@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   error: any;
   total: number;
   watched: string;
+  isLaoding: boolean;
 
   constructor(private fhir: FhirService,
     public electronService: ElectronService,
@@ -50,13 +51,15 @@ export class HomeComponent implements OnInit {
   }
 
   private upload(fileToUpload: string) {
+    this.isLaoding=true;
     this.watched =fileToUpload;
     var data = this.electronService.fs.readFileSync(fileToUpload);
     this.fhir.postFile(data)
         .pipe(mergeMap(() => this.fhir.getHiso()))
       .subscribe(data => {
         console.log('upload OK');
-        this.total = data.total
+        this.total = data.total;
+        this.isLaoding =false;
 
       });
   }
@@ -73,6 +76,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.watched = "";
     this.total=0;
+    this.isLaoding=false;
     this.watcher.countdownEnd$.subscribe((file:string)=>{
       this.upload(file);
 

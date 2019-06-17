@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 
 import { NgxFileDropModule } from 'ngx-file-drop';
+import {MatCard, MatCardModule, MatIconModule, MatToolbarModule, MatProgressSpinnerModule} from "@angular/material";
 
 
 // AoT requires an exported function for factories
@@ -40,6 +41,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatCardModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
