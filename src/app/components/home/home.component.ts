@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   watched: string;
   isLaoding: boolean;
 
+
+
   constructor(private fhir: FhirService,
     public electronService: ElectronService,
     public watcher:FilewatcherService) {
@@ -27,6 +29,8 @@ export class HomeComponent implements OnInit {
   public files: NgxFileDropEntry[] = [];
 
   public dropped(files: NgxFileDropEntry[]) {
+
+
     this.files = files;
     this.watched ="";
     for (const droppedFile of files) {
@@ -50,10 +54,30 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  private upload(fileToUpload: string) {
+
+
+  private async upload(fileToUpload: string) {
+    function readFileAsync(file) {
+      return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+
+        reader.onerror = reject;
+
+        reader.readAsArrayBuffer(file);
+      })
+    }
+
+
     this.isLaoding=true;
     this.watched =fileToUpload;
-    var data = this.electronService.fs.readFileSync(fileToUpload);
+
+
+      var data =  this.electronService.fs ? this.electronService.fs.readFileSync(fileToUpload):  await readFileAsync(fileToUpload);
+
     this.fhir.postFile(data)
         .pipe(mergeMap(() => this.fhir.getHiso()))
       .subscribe(data => {

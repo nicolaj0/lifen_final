@@ -28,7 +28,7 @@ export class FhirService {
         'Something bad happened; please try again later.');
   };
 
-  postFile(file: String|ArrayBuffer) : Observable<string>{
+  postFile(file: String|ArrayBuffer|any) : Observable<string>{
     return this.http.post('https://fhirtest.uhn.ca/baseDstu3/Binary',file,{responseType: 'text'})
       .pipe(
         catchError(this.handleError)
