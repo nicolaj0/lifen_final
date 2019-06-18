@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
           console.log(droppedFile.relativePath, file);
 
           const fileToUpload = droppedFile.relativePath;
-          this.upload(file.path);
+          this.upload(fileToUpload, file);
         });
       } else {
         // It was a directory (empty directories are added, otherwise only files)
@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
 
 
 
-  private async upload(fileToUpload: string) {
+  private async upload(fileToUpload: string, file:File) {
     function readFileAsync(file) {
       return new Promise((resolve, reject) => {
         let reader = new FileReader();
@@ -64,7 +64,6 @@ export class HomeComponent implements OnInit {
         reader.onload = () => {
           resolve(reader.result);
         };
-
         reader.onerror = reject;
 
         reader.readAsArrayBuffer(file);
@@ -75,8 +74,7 @@ export class HomeComponent implements OnInit {
     this.isLaoding=true;
     this.watched =fileToUpload;
 
-
-      var data =  this.electronService.fs ? this.electronService.fs.readFileSync(fileToUpload):  await readFileAsync(fileToUpload);
+      var data =  file===null ? this.electronService.fs.readFileSync(fileToUpload):  await readFileAsync(file);
 
     this.fhir.postFile(data)
         .pipe(mergeMap(() => this.fhir.getHiso()))
@@ -102,7 +100,7 @@ export class HomeComponent implements OnInit {
     this.total=0;
     this.isLaoding=false;
     this.watcher.countdownEnd$.subscribe((file:string)=>{
-      this.upload(file);
+      this.upload(file,null);
 
   });
   }
