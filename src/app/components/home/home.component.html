@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span>Lifen</span>
 </mat-toolbar>
-<div *ngIf='isLaoding'>
+<div *ngIf='isLoading'>
   <mat-spinner style="margin:0 auto;"
                mode="indeterminate"></mat-spinner>
 </div>
@@ -10,24 +10,22 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>Total fichiers</mat-card-title>
-      <mat-card-subtitle>{{total}} </mat-card-subtitle>
+      <mat-card-subtitle>{{total | async}} </mat-card-subtitle>
     </mat-card-header>
   </mat-card>
 </div>
-
-
 <mat-card>
-
-  <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
-                 (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+  <ngx-file-drop dropZoneLabel="Drop files here"
+                 (onFileDrop)="dropped($event)"
+                 (onFileOver)="fileOver($event)"
+                 (onFileLeave)="fileLeave($event)">
   </ngx-file-drop>
 </mat-card>
-
 <div >
   <mat-card>
     <mat-card-header>
       <mat-card-title>Last file</mat-card-title>
-      <mat-card-subtitle>{{watched}} </mat-card-subtitle>
+      <mat-card-subtitle>{{watched | async}} </mat-card-subtitle>
     </mat-card-header>
   </mat-card>
 </div>
