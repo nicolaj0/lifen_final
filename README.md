@@ -19,3 +19,15 @@ With this sample, you can :
 
 Launch  with `npm run ng:serve:web`.
 
+
+
+## Ideas for bonus question
+
+use capabilities of electron access to native resources 
+- ** upload a scren capture directly 
+- ** display in the tray a notifcation when a file is dropped in the watched dir
+- ** display onkly the files uploaded by me ina grid and possiblity to download them
+- ** check for duplicate files
+
+
+
